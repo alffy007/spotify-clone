@@ -5,6 +5,7 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import Buttons from "./Buttons";
+import useAuthModel from "@/hooks/useAuthModel";
 
 
 interface HeaderProps {
@@ -16,6 +17,7 @@ const Header: React.FC<HeaderProps> = (
     { children, classname }
 ) => {
     const router = useRouter();
+    const authModel =useAuthModel();
     const handlelogout = () => {
         //hangle logout
     }
@@ -42,13 +44,13 @@ const Header: React.FC<HeaderProps> = (
                 <div className="flex  justify-between items-center gap-x-4">
                     <>
                         <div>
-                            <Buttons onClick={()=>{}}  className="bg-transparent text-neutral-300 font-medium">
+                            <Buttons onClick={authModel.onOpen}  className="bg-transparent text-neutral-300 font-medium">
                                 Sign Up
                             </Buttons>
                            
                         </div>
                         <div>
-                            <Buttons onClick={()=>{}} className="bg-white px-6 py-2">
+                            <Buttons onClick={()=>{authModel.onOpen}} className="bg-white px-6 py-2">
                                 Log In
                             </Buttons>
                         </div>
