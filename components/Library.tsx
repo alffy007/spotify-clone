@@ -1,10 +1,16 @@
 "use client"
 import { TbPlaylist } from "react-icons/tb"
 import { AiOutlinePlus } from "react-icons/ai"
+import useAuthModal from "@/hooks/useAuthModel"
+import { useUser } from "@/hooks/useUser"
 
 const Library = () => {
+    const authmodel = useAuthModal();
+    const { user } = useUser();
     const onClick = () => {
-        //handle upload` click
+    if(!user){
+        return authmodel.onOpen();
+    }
     };
     return (
         <div className="flex flex-col">

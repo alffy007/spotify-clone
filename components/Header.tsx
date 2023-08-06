@@ -5,7 +5,12 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import Buttons from "./Buttons";
+import { useUser } from "@/hooks/useUser";
 import useAuthModel from "@/hooks/useAuthModel";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Button from "./Buttons";
+import { FaUserAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 
 interface HeaderProps {
@@ -17,9 +22,19 @@ const Header: React.FC<HeaderProps> = (
     { children, classname }
 ) => {
     const router = useRouter();
-    const authModel =useAuthModel();
-    const handlelogout = () => {
-        //hangle logout
+    const authModel = useAuthModel();
+    const supabaseClient = useSupabaseClient();
+    const { user } = useUser();
+
+    const handlelogout = async () => {
+        const { error } = await supabaseClient.auth.signOut();
+        //todo: reset any playing song
+        router.refresh();
+        if (error) {
+            toast.error(error.message);
+        }else{
+            toast.success('Logged Out!')
+        }
     }
     return (
         <div className={twMerge("h-fit bg-gradient-to-b from-emerald-800 p-6", classname)}>
@@ -42,19 +57,33 @@ const Header: React.FC<HeaderProps> = (
 
                 </div>
                 <div className="flex  justify-between items-center gap-x-4">
-                    <>
-                        <div>
-                            <Buttons onClick={authModel.onOpen}  className="bg-transparent text-neutral-300 font-medium">
-                                Sign Up
-                            </Buttons>
-                           
+                    {user ? (
+                        <div className="flex gap-x-4 items-center ">
+                            <Button onClick={handlelogout} className="bg-white px-6 py-2">
+                                Logout
+                            </Button>
+                            <Button onClick={() => router.push('/account')} className="bg-white">
+                                <FaUserAlt />
+                            </Button>
                         </div>
-                        <div>
-                            <Buttons onClick={()=>{authModel.onOpen}} className="bg-white px-6 py-2">
-                                Log In
-                            </Buttons>
-                        </div>
-                    </>
+                    ) : (
+                        <>
+                            <div>
+                                <Buttons
+                                    onClick={authModel.onOpen}
+                                    className="bg-transparent text-neutral-300  font-medium" >
+                                    Sign up
+                                </Buttons>
+                            </div>
+                            <div>
+                                <Buttons
+                                    onClick={authModel.onOpen}
+                                    className="bg-white px-6 py-2">
+                                    Log in
+                                </Buttons>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
             {children}

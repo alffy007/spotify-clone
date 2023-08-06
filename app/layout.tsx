@@ -4,6 +4,7 @@ import { Figtree, Poppins } from 'next/font/google'
 import SupabaseProvider from '@/providers/Supabaseprovider'
 import UserProvider from '@/providers/UserProvider'
 import ModelProvider from '@/providers/ModelProvider'
+import ToasterProvider from '@/providers/ToasterProvider'
 const font = Figtree({ subsets: ['latin'] })
 const poppin = Poppins({ weight: "100", subsets: ['latin'] })
 
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <ToasterProvider/>
         <SupabaseProvider>
           <UserProvider>
             <ModelProvider/>
