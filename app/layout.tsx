@@ -6,7 +6,7 @@ import UserProvider from '@/providers/UserProvider'
 import ModelProvider from '@/providers/ModelProvider'
 import ToasterProvider from '@/providers/ToasterProvider'
 const font = Figtree({ subsets: ['latin'] })
-const poppin = Poppins({ weight: "100", subsets: ['latin'] })
+const poppin = Poppins({ weight: "900", subsets: ['latin'] })
 
 export const metadata = {
   title: 'Spotify 2.0',
